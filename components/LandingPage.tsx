@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { BarChart3, Users, TrendingUp, Shield, Zap, Globe } from "lucide-react"
 import Link from "next/link"
+import LandingNav from "./utils/LandingNav"
 
 
 const LandingPage = () => {
@@ -37,17 +38,9 @@ const LandingPage = () => {
                 About
               </Link>
             </nav>
-            <div className="flex items-center gap-3">
-              <Button variant="ghost" size="sm">
-                Log in
-              </Button>
-              <Button
-                size="sm"
-                className="bg-accent text-accent-foreground hover:bg-accent/90"
-              >
-                Get Started
-              </Button>
-            </div>
+
+            <LandingNav />
+            
           </div>
         </div>
       </header>
