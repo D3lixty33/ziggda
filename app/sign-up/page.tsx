@@ -2,10 +2,27 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { createClient } from "@supabase/ssr"
 import { BarChart3 } from "lucide-react"
 import Link from "next/link"
 
 export default function SignUpPage() {
+
+  async function signUser(formdata: FormData) {
+    'use server'
+
+    const supabase = createClient;
+
+    const formData = {
+      name : formdata.get('name'),
+      email : formdata.get('email'),
+      password : formdata.get('password'),
+      confirmPassword : formdata.get('confirm-password')
+    }
+
+    const { error } = supabase    
+
+  }
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
@@ -34,7 +51,7 @@ export default function SignUpPage() {
             <p className="mt-2 text-sm text-muted-foreground text-pretty">Get started with DashMetrics today</p>
           </div>
 
-          <form className="space-y-6">
+          <form className="space-y-6" action={signUser}>
             <div className="space-y-2">
               <Label htmlFor="name" className="text-sm font-medium text-foreground">
                 Full name
