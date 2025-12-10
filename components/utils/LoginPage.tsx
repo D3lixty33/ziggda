@@ -43,9 +43,9 @@ export default function LoginPage() {
     const user = data.user;
 
     // Optional: call your backend login API
-    await fetch(`${BASE_URL}/api/${user.id}/login`);
+    await fetch(`/api/${user.id}/login`);
 
-    router.push("/dashboard");
+    router.push(`${user.id}/dashboard`);
   }
 
   // ------------------------------
