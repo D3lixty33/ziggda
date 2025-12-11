@@ -1,7 +1,9 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+import { User } from "@/lib/types";
 import {
   LayoutDashboard,
   Wallet,
@@ -21,8 +23,9 @@ import {
   ArrowDownRight,
   Menu,
   X,
-} from "lucide-react"
-import { cn } from "@/lib/utils"
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { UserFetch } from "@/lib/utils";
 
 const navigationItems = [
   {
@@ -67,7 +70,7 @@ const navigationItems = [
     href: "/payees",
     icon: Users,
   },
-]
+];
 
 const bottomNavItems = [
   {
@@ -80,12 +83,25 @@ const bottomNavItems = [
     href: "/help",
     icon: HelpCircle,
   },
-]
+];
 
-export function FinancialSidebar() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [activeItem, setActiveItem] = useState("/dashboard")
-  const [accountDropdownOpen, setAccountDropdownOpen] = useState(false)
+export function FinancialSidebar({params}: {params: {id: string}}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState("/dashboard");
+  const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    const data = UserFetch(id);
+  
+  }, []);
+
+  const { id } = params;
+  
+  const user: User = {
+    id: id,
+    name: ,
+    email: "",
+  };
 
   return (
     <>
@@ -98,13 +114,18 @@ export function FinancialSidebar() {
       </button>
 
       {/* Overlay */}
-      {isOpen && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setIsOpen(false)} />}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
       {/* Sidebar */}
       <aside
         className={cn(
           "fixed top-0 left-0 z-40 h-screen w-64 bg-sidebar border-r border-sidebar-border transition-transform duration-300 lg:translate-x-0",
-          isOpen ? "translate-x-0" : "-translate-x-full",
+          isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div className="flex flex-col h-full">
@@ -114,7 +135,9 @@ export function FinancialSidebar() {
               <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
                 <Building2 className="h-5 w-5 text-accent-foreground" />
               </div>
-              <span className="text-lg font-semibold text-sidebar-foreground">DashMetrics</span>
+              <span className="text-lg font-semibold text-sidebar-foreground">
+                DashMetrics
+              </span>
             </Link>
           </div>
 
@@ -129,14 +152,18 @@ export function FinancialSidebar() {
                   <span className="text-sm font-semibold text-accent">JD</span>
                 </div>
                 <div className="text-left">
-                  <p className="text-sm font-medium text-sidebar-accent-foreground">John Doe</p>
-                  <p className="text-xs text-sidebar-accent-foreground/60">Premium Account</p>
+                  <p className="text-sm font-medium text-sidebar-accent-foreground">
+                    John Doe
+                  </p>
+                  <p className="text-xs text-sidebar-accent-foreground/60">
+                    Premium Account
+                  </p>
                 </div>
               </div>
               <ChevronDown
                 className={cn(
                   "h-4 w-4 text-sidebar-accent-foreground transition-transform",
-                  accountDropdownOpen && "rotate-180",
+                  accountDropdownOpen && "rotate-180"
                 )}
               />
             </button>
@@ -146,14 +173,18 @@ export function FinancialSidebar() {
                 <div className="p-2 text-xs text-sidebar-accent-foreground/80">
                   <div className="flex justify-between mb-1">
                     <span>Total Balance</span>
-                    <span className="font-semibold text-sidebar-accent-foreground">$48,572.00</span>
+                    <span className="font-semibold text-sidebar-accent-foreground">
+                      $48,572.00
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="flex items-center gap-1 text-green-600">
                       <ArrowUpRight className="h-3 w-3" />
                       +2.5%
                     </span>
-                    <span className="text-sidebar-accent-foreground/60">this month</span>
+                    <span className="text-sidebar-accent-foreground/60">
+                      this month
+                    </span>
                   </div>
                 </div>
               </div>
@@ -168,14 +199,14 @@ export function FinancialSidebar() {
                   key={item.href}
                   href={item.href}
                   onClick={() => {
-                    setActiveItem(item.href)
-                    setIsOpen(false)
+                    setActiveItem(item.href);
+                    setIsOpen(false);
                   }}
                   className={cn(
                     "flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                     activeItem === item.href
                       ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                   )}
                 >
                   <div className="flex items-center gap-3">
@@ -223,14 +254,14 @@ export function FinancialSidebar() {
                 key={item.href}
                 href={item.href}
                 onClick={() => {
-                  setActiveItem(item.href)
-                  setIsOpen(false)
+                  setActiveItem(item.href);
+                  setIsOpen(false);
                 }}
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                   activeItem === item.href
                     ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                    : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                    : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                 )}
               >
                 <item.icon className="h-5 w-5" />
@@ -245,5 +276,5 @@ export function FinancialSidebar() {
         </div>
       </aside>
     </>
-  )
+  );
 }
