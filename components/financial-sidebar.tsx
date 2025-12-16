@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
 import { User } from "@/lib/types";
 import {
   LayoutDashboard,
@@ -27,7 +26,12 @@ import {
 import { cn } from "@/lib/utils";
 import { UserFetch } from "@/lib/utils";
 
-const navigationItems = [
+export function FinancialSidebar({ id }: { id: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState("/dashboard");
+  const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
+  const [userData, setUserData] = useState<User | null>(null);
+  const navigationItems = [
   {
     title: "Overview",
     href: "/dashboard",
@@ -35,7 +39,7 @@ const navigationItems = [
   },
   {
     title: "Accounts",
-    href: "/accounts",
+    href: `/${id}/account`,
     icon: Wallet,
     badge: "3",
   },
@@ -85,23 +89,14 @@ const bottomNavItems = [
   },
 ];
 
-export function FinancialSidebar({params}: {params: {id: string}}) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState("/dashboard");
-  const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
-
   useEffect(() => {
-    const data = UserFetch(id);
-  
-  }, []);
+    fetchData();
+  }, [id]);
 
-  const { id } = params;
-  
-  const user: User = {
-    id: id,
-    name: ,
-    email: "",
-  };
+  async function fetchData() {
+    const res = await UserFetch(id);
+    setUserData(res);
+  }
 
   return (
     <>
@@ -153,7 +148,7 @@ export function FinancialSidebar({params}: {params: {id: string}}) {
                 </div>
                 <div className="text-left">
                   <p className="text-sm font-medium text-sidebar-accent-foreground">
-                    John Doe
+                    {userData?.name}
                   </p>
                   <p className="text-xs text-sidebar-accent-foreground/60">
                     Premium Account
