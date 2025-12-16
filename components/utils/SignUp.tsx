@@ -44,14 +44,14 @@ export default function SignUpPage() {
       return;
     }
 
-    // 2) Insert into users table (profile)
-    const { error: insertError } = await supabase
+    const { error: userErr } = await supabase
       .from("users")
-      .insert({ name, email });
+      .insert(name, {
+        count: "exact",
+      });
 
-    if (insertError) {
-      setErrorMessage(insertError.message);
-      return;
+    if (userErr) {
+      console.log('Error while signing-up and inserting the name in users' + userErr.message);
     }
 
     setErrorMessage(null);
@@ -104,7 +104,10 @@ export default function SignUpPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-sm font-medium text-foreground">
+              <Label
+                htmlFor="name"
+                className="text-sm font-medium text-foreground"
+              >
                 Full name
               </Label>
               <Input
@@ -118,7 +121,10 @@ export default function SignUpPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-foreground">
+              <Label
+                htmlFor="email"
+                className="text-sm font-medium text-foreground"
+              >
                 Email address
               </Label>
               <Input
@@ -132,7 +138,10 @@ export default function SignUpPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium text-foreground">
+              <Label
+                htmlFor="password"
+                className="text-sm font-medium text-foreground"
+              >
                 Password
               </Label>
               <Input
@@ -172,11 +181,17 @@ export default function SignUpPage() {
               />
               <Label htmlFor="terms" className="text-sm text-muted-foreground">
                 I agree to the{" "}
-                <Link href="#" className="text-accent hover:text-accent/80 transition-colors">
+                <Link
+                  href="#"
+                  className="text-accent hover:text-accent/80 transition-colors"
+                >
                   Terms of Service
                 </Link>{" "}
                 and{" "}
-                <Link href="#" className="text-accent hover:text-accent/80 transition-colors">
+                <Link
+                  href="#"
+                  className="text-accent hover:text-accent/80 transition-colors"
+                >
                   Privacy Policy
                 </Link>
               </Label>
@@ -230,13 +245,22 @@ export default function SignUpPage() {
               © 2025 DashMetrics. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <Link href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link
+                href="#"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
                 Privacy
               </Link>
-              <Link href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link
+                href="#"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
                 Terms
               </Link>
-              <Link href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link
+                href="#"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
                 Support
               </Link>
             </div>

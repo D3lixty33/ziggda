@@ -42,8 +42,15 @@ export default function LoginPage() {
     // The user is now authenticated
     const user = data.user;
 
-    // Optional: call your backend login API
-    await fetch(`/api/${user.id}/login`);
+//    await fetch(`/api/users/${user.id}`, {
+//      method: "POST",
+//      headers: {
+//        "Content-Type": "application/json",
+//      },
+//      body: JSON.stringify({
+//        // whatever user data you want to insert
+//      }),
+//    });
 
     router.push(`${user.id}/dashboard`);
   }
@@ -78,7 +85,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-
       {/* Header */}
       <header className="border-b border-border">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -117,10 +123,7 @@ export default function LoginPage() {
           </div>
 
           <form onSubmit={handleEmailLogin} className="space-y-6">
-            
-            {errorMsg && (
-              <p className="text-red-500 text-sm">{errorMsg}</p>
-            )}
+            {errorMsg && <p className="text-red-500 text-sm">{errorMsg}</p>}
 
             {/* Email */}
             <div className="space-y-2">
@@ -132,7 +135,7 @@ export default function LoginPage() {
                 className="bg-background border-input"
                 placeholder="you@example.com"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -151,7 +154,7 @@ export default function LoginPage() {
                 className="bg-background border-input"
                 placeholder="Enter your password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
