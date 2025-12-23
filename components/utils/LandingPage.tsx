@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { BarChart3, Users, TrendingUp, Shield, Zap, Globe } from "lucide-react"
 import Link from "next/link"
-import LandingNav from "./utils/LandingNav"
+import LandingNav from "@/components/utils/LandingNav"
 
 
 const LandingPage = () => {

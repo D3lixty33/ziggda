@@ -8,6 +8,7 @@ import { useUserId } from "@/context/UserContext";
 import { UserFetch, UserUpdate } from "@/lib/utils";
 import { User } from "@/lib/types";
 import { useEffect, useState } from "react";
+import CardForm from "@/components/utils/CardsForm";
 
 export default function AccountRender() {
   const id = useUserId();
@@ -20,6 +21,8 @@ export default function AccountRender() {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState<number | "">("");
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
 
   /* ---------------- Fetch user ---------------- */
   useEffect(() => {
@@ -30,7 +33,11 @@ export default function AccountRender() {
       setUserData(res);
     }
 
-    fetchData();
+    if (userData) {
+      return;
+    } else {
+      fetchData();
+    }
   }, [id]);
 
   /* ---------------- Hydrate form ---------------- */
@@ -54,12 +61,17 @@ export default function AccountRender() {
       address,
       //phoneNumber: phone === "" ? null : phone,
     };
-
-    await UserUpdate(id, data);
+    try {
+      await UserUpdate(id, data);
+      setSuccess(true);
+    } catch (e: any) {
+      console.log("Error calling the UserUpdate" + e.message);
+      setError(true);
+    }
   }
 
   return (
-    <div className="p-8 flex w-full h-full gap-6">
+    <div className="p-8 flex w-full h-full gap-32 max-[1281px]:flex-col max-[1281px]:ml-28">
       <div className="flex flex-col w-full max-w-md">
         <h1 className="text-xl mb-4">Account settings</h1>
 
@@ -142,6 +154,71 @@ export default function AccountRender() {
             Update account
           </Button>
         </form>
+      </div>
+
+      {success && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
+            onClick={() => setSuccess(false)}
+          />
+
+          {/* Modal */}
+          <div className="relative z-10 w-full max-w-sm rounded-xl bg-background p-6 shadow-xl animate-in fade-in zoom-in">
+            <div className="flex flex-col items-center gap-4 text-center">
+              {/* Icon */}
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
+                ✓
+              </div>
+
+              <h2 className="text-lg font-semibold">Account updated</h2>
+              <p className="text-sm text-muted-foreground">
+                Your account information has been saved successfully.
+              </p>
+
+              <Button className="mt-2 w-full" onClick={() => setSuccess(false)}>
+                Continue
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {error && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            onClick={() => setError(false)}
+          />
+
+          {/* Modal */}
+          <div className="relative z-10 w-full max-w-sm rounded-xl bg-background p-6 shadow-xl animate-in fade-in zoom-in">
+            <div className="flex flex-col items-center gap-4 text-center">
+              {/* Icon */}
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600">
+                !
+              </div>
+
+              <h2 className="text-lg font-semibold">Update failed</h2>
+
+              <p className="text-sm text-muted-foreground">{error}</p>
+
+              <Button
+                variant="destructive"
+                className="mt-2 w-full"
+                onClick={() => setError(false)}
+              >
+                Try again
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="flex w-auto">
+        <CardForm />
       </div>
     </div>
   );

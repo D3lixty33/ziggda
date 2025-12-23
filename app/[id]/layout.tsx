@@ -1,4 +1,4 @@
-import { FinancialSidebar } from "@/components/financial-sidebar";
+import { FinancialSidebar } from "@/components/utils/Financial-sidebar";
 import { UserWrapper } from "@/components/utils/UserWrapper";
 
 export default async function RootLayout({
@@ -6,21 +6,27 @@ export default async function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ id: string }>; // Important: params may be a Promise
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = await params; // Await the whole params object
-  //console.log("User ID:", id);
+  const { id } = await params;
 
   return (
-      <div className="w-full h-full flex">
-        <div className="flex w-auto h-auto">
-          <FinancialSidebar id={id} />
-        </div>
-        <div className="flex w-full h-full ml-72">
-          <UserWrapper id={id}>
-            {children}
-          </UserWrapper>
-        </div>
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-[280px_1fr]">
+      
+      {/* Sidebar */}
+      <div className="border-b md:border-b-0 md:border-r">
+        <FinancialSidebar id={id} />
       </div>
+
+      {/* Main Content */}
+      <div className="overflow-y-auto">
+        <UserWrapper id={id}>
+          <div className="p-4 md:p-6">
+            {children}
+          </div>
+        </UserWrapper>
+      </div>
+
+    </div>
   );
 }

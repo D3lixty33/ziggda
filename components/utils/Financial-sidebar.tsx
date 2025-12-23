@@ -34,26 +34,27 @@ export function FinancialSidebar({ id }: { id: string }) {
   const navigationItems = [
   {
     title: "Overview",
-    href: "/dashboard",
+    href: `/${id}/dashboard`,
     icon: LayoutDashboard,
   },
   {
     title: "Accounts",
     href: `/${id}/account`,
     icon: Wallet,
-    badge: "3",
+//    badge: "3",
   },
   {
     title: "Transactions",
-    href: "/transactions",
+    href: `/${id}/transactions`,
     icon: Receipt,
     badge: "12",
   },
   {
     title: "Cards",
-    href: "/cards",
+    href: `/${id}/cards`,
     icon: CreditCard,
-  },
+  }
+  /*
   {
     title: "Investments",
     href: "/investments",
@@ -64,16 +65,7 @@ export function FinancialSidebar({ id }: { id: string }) {
     href: "/budget",
     icon: Target,
   },
-  {
-    title: "Reports",
-    href: "/reports",
-    icon: PieChart,
-  },
-  {
-    title: "Payees",
-    href: "/payees",
-    icon: Users,
-  },
+  */
 ];
 
 const bottomNavItems = [
