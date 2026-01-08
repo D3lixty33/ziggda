@@ -71,7 +71,7 @@ export default function AccountRender() {
   }
 
   return (
-    <div className="p-8 flex w-full h-full gap-32 max-[1281px]:flex-col max-[1281px]:ml-28">
+    <div className="p-8 flex w-full h-full gap-32 flex-col ml-28"> {/*max-[1281px]:flex-col max-[1281px]:ml-28*/}
       <div className="flex flex-col w-full max-w-md">
         <h1 className="text-xl mb-4">Account settings</h1>
 

@@ -8,7 +8,6 @@ import { Button } from "../ui/button";
 import { useUserId } from "@/context/UserContext";
 import { CreditCardProp } from "@/lib/types";
 import { CardFetch, CardUpdate } from "@/lib/utils";
-import { createClient } from "@/utils/supabase/client";
 
 export default function CardForm() {
   const user_id = useUserId();
@@ -23,6 +22,7 @@ export default function CardForm() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
 
+  /*-------------Fetch Data-------------*/
   useEffect(() => {
     if (!user_id) return;
     async function fetchData() {
@@ -37,6 +37,8 @@ export default function CardForm() {
     }
   });
 
+  /*-------------Hydrate Form-------------*/
+
   useEffect(() => {
     if (!cardData) return;
 
@@ -46,6 +48,7 @@ export default function CardForm() {
     setExpDate(cardData.exp_date ?? "");
   }, [cardData]);
 
+  /*-------------Submit Form-------------*/
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

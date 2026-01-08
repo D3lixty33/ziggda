@@ -34,7 +34,7 @@ export function TransactionsTable({
   });
 
   return (
-    <div className="bg-background rounded-xl border shadow-sm overflow-hidden">
+    <div className="bg-background rounded-xl border shadow-sm overflow-hidden bg-white">
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="bg-muted/40">
